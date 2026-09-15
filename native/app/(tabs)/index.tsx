@@ -16,7 +16,7 @@ export default function TabOneScreen() {
     <View className="flex-1 items-center justify-start bg-white dark:bg-black">
       <View id='content' className='mt-3 ml-3'>
       <Text>Test</Text>
-      <TodoCard />
+     
 
       </View>
       
