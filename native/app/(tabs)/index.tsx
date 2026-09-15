@@ -13,9 +13,15 @@ export default function TabOneScreen() {
    .catch((console.error))
   }, [])
   return (
-    <View className="flex-1 items-center justify-start bg-white dark:bg-black">
+    <View className="flex-1 items-center justify-start bg-black">
       <View id='content' className='mt-3 ml-3'>
-      <Text>Test</Text>
+      {todos.map((todo) => (
+        <TodoCard 
+        key={todo.todo_id}
+        todo={todo}
+        onToggleComplete={(id) => console.log('Toggle', id)}
+        />
+      ))}
      
 
       </View>

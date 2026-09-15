@@ -1,11 +1,12 @@
 import { useFonts } from 'expo-font'
-import { DarkTheme, DefaultTheme, Stack, ThemeProvider } from 'expo-router'
+import { DarkTheme, Stack, ThemeProvider } from 'expo-router'
 import * as SplashScreen from 'expo-splash-screen'
 import { useEffect } from 'react'
+import { colorScheme as nativewindColorScheme } from 'nativewind'
 import 'react-native-reanimated'
 import '../global.css'
 
-import { useColorScheme } from '@/components/useColorScheme'
+nativewindColorScheme.set('dark')
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -44,10 +45,8 @@ export default function RootLayout() {
 }
 
 function RootLayoutNav() {
-  const colorScheme = useColorScheme()
-
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+    <ThemeProvider value={DarkTheme}>
       <Stack>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="modal" options={{ presentation: 'modal' }} />

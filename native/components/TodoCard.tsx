@@ -10,21 +10,29 @@ interface TodoProps {
 const TodoCard = ({todo, onToggleComplete}: TodoProps) => {
     return ( 
         <View className='w-full'>
-            <View id='todo' className='w-full bg-red-300 p-3 flex flex-row'>
-                <Ionicons name="checkmark-circle" size={22} />
+            <View id='todo' className='w-full bg-neutral-900 rounded-2xl p-3 flex flex-row mt-3'>
+                <Ionicons name="checkmark-circle" size={22} color="#e5e5e5" />
                 <View id='mainContent' className='flex-1 ml-2'>
-                    <Text id='title' className='font-bold text-lg'>{todo.todo_title}</Text>
-                    <Text id='description' className=''>5 minutes writing, 10 minutes reading, 15 minutes speaking with Perplexity</Text>
+                    <Text id='title' className='font-bold text-lg text-white'>{todo.todo_title}</Text>
+                    <Text id='description' className='text-neutral-400'>{todo.todo_description}</Text>
                     <View id='bottomLayer' className='flex flex-row justify-between mt-1'>
                         <View id='bubbles' className='flex flex-row gap-2'>
-                            <Text id='priority' className=' badge badge-medium'>Medium</Text>
-                            <Text id='category' className='badge badge-category'>Spanish</Text>
+                            <Text id='priority' className=' badge badge-medium'>{todo.todo_priority}</Text>
+                            <Text id='category' className='badge badge-category'>{todo.todo_category}</Text>
                         </View>
-                        <Text id='dueDate' className='text-gray-200'>Due Sep 20</Text>
+                        <Text id='dueDate' className='text-neutral-500'>
+                            {todo.todo_due_date &&
+                                new Date(todo.todo_due_date).toLocaleString('en-US', {
+                                    month: 'short',
+                                    day: 'numeric',
+                                    hour: 'numeric',
+                                    minute: '2-digit',
+                                })}
+                        </Text>
 
                     </View>
                 </View>
-                <Ionicons name='trash-outline' size={18}/>
+                <Ionicons name='trash-outline' size={18} color="#a3a3a3" />
             </View>
         </View>
      );
