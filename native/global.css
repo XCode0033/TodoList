@@ -1,0 +1,22 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .badge {
+    @apply rounded-full px-3 py-1 text-sm font-medium text-white;
+  }
+  .badge-high {
+    @apply bg-rose-400;
+  }
+  .badge-medium {
+    @apply bg-orange-400;
+  }
+  .badge-low {
+    @apply bg-emerald-400;
+  }
+  .badge-category {
+    @apply bg-neutral-700 text-neutral-300;
+  }
+}
+
