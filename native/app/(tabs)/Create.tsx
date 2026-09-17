@@ -1,4 +1,4 @@
-import {View, Text, TextInput, Pressable} from 'react-native'
+import {View, Text, TextInput, Pressable, Alert} from 'react-native'
 import { Todo } from '../../../types/todo';
 import { useState, useEffect } from 'react';
 import { API_URL } from '@/constants/Api';
@@ -49,6 +49,7 @@ const CreateTab = () => {
     setDescription('')
   }
 
+  
   useEffect(() => {
     if(status === 'idle') return
     const timer = setTimeout(() => setStatus('idle'), 3000)

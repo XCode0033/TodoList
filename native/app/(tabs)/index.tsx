@@ -1,4 +1,4 @@
-import { Text, View, ScrollView } from 'react-native'
+import { Text, View, ScrollView, Alert } from 'react-native'
 import { useState, useEffect } from 'react'
 import { API_URL } from '@/constants/Api'
 import {Todo} from '../../../types/todo'
@@ -12,6 +12,51 @@ export default function TabOneScreen() {
    .then((setTodos))
    .catch((console.error))
   }, [])
+
+  async function handleDelete(id:number) {
+      try{
+        const res = await fetch(`${API_URL}/todos/${id}`, {
+          method: "DELETE",
+        })
+        const data = res.json()
+  
+        if(!res.ok){
+          Alert.alert('Could not delete that item.')
+          return
+        }
+        setTodos((prev) => prev.filter((t) => t.todo_id !== id))
+        console.log('Todo deleted from the front end succesfully.')
+      }catch(err){
+        console.log(err)
+        Alert.alert('Something went wrong with deleting that item')
+      }
+    }
+
+
+  async function handleToggleComplete(id: number) {
+  const target = todos.find((t) => t.todo_id === id)
+  if (!target) return
+
+  // optimistic update — flip the UI instantly
+  setTodos((prev) =>
+    prev.map((t) => (t.todo_id === id ? { ...t, todo_completed: !t.todo_completed } : t))
+  )
+
+  try {
+    const res = await fetch(`${API_URL}/todos/${id}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ todo_completed: !target.todo_completed }),
+    })
+    if (!res.ok) throw new Error('Failed to update')
+  } catch (err) {
+    // roll back if the server rejected it
+    setTodos((prev) =>
+      prev.map((t) => (t.todo_id === id ? { ...t, todo_completed: target.todo_completed } : t))
+    )
+  }
+}
+
   return (
     <ScrollView >
       <View className="flex-1 items-center justify-start bg-black">
@@ -20,7 +65,8 @@ export default function TabOneScreen() {
         <TodoCard 
         key={todo.todo_id}
         todo={todo}
-        onToggleComplete={(id) => console.log('Toggle', id)}
+        onToggleComplete={handleToggleComplete}
+        onDelete={handleDelete}
         />
       ))}
      

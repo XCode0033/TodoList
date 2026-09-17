@@ -50,7 +50,7 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="two"
+        name="create"
         options={{
           title: 'Create',
           tabBarIcon: ({ color }) => (
@@ -66,6 +66,12 @@ export default function TabLayout() {
           ),
         }}
       />
+
+      <Tabs.Screen 
+      name='todo/[id]'
+      options={{title: 'Edit Todo'}}/>
+
+      
     </Tabs>
   )
 }

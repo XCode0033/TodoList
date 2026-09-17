@@ -57,20 +57,25 @@ Native(expo) cd native npm run ios
 ## Left off:
 I completed fullstack post function. home tab already shows all todos as they get added. DID NOT add deleted yet.
 ## ToDo
-1. Wire up delete on the front end. use icons too + success/failure messages.
+1. ~~Wire up delete on the front end.~~ use icons too + success/failure messages.
 2. Add due date to card and state and post
 3. JSX logic for determining priority colors
-4. Allow isCompleted toggle
-5. PATCH
+4. ~~Allow isCompleted toggle <->~~
+5. PATCH <>
 
 
 ## Completed 
-
+1. Fullstack delete.
+2. isCompleted
 ## goal
 search sort filter by priority, category, completion, created date, due date, title similar search.
 
+(CURRENT)
+Work with PATCH to see if it actually works or not. afterwards create success/failure message for PATCH.
 ## Notes
 
+## Summary
+Create and delete fully wired across front and back.
 
 
 ----------------
