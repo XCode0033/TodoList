@@ -1,4 +1,4 @@
-import { Text, View } from 'react-native'
+import { Text, View, ScrollView } from 'react-native'
 import { useState, useEffect } from 'react'
 import { API_URL } from '@/constants/Api'
 import {Todo} from '../../../types/todo'
@@ -13,7 +13,8 @@ export default function TabOneScreen() {
    .catch((console.error))
   }, [])
   return (
-    <View className="flex-1 items-center justify-start bg-black">
+    <ScrollView >
+      <View className="flex-1 items-center justify-start bg-black">
       <View id='content' className='mt-3 ml-3'>
       {todos.map((todo) => (
         <TodoCard 
@@ -25,7 +26,9 @@ export default function TabOneScreen() {
      
 
       </View>
+
+      </View>
       
-    </View>
+    </ScrollView>
   )
 }
