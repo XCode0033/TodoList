@@ -1,17 +1,24 @@
 import { Text, View, ScrollView, Alert } from 'react-native'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { API_URL } from '@/constants/Api'
 import {Todo} from '../../../types/todo'
+import { useFocusEffect } from 'expo-router'
 import TodoCard from '@/components/TodoCard'
 export default function TabOneScreen() {
   
   const [todos, setTodos] = useState<Todo[]>([])
-  useEffect(() => {
-   fetch(`${API_URL}/todos`)
+  const loadTodos = useCallback(() => {
+    fetch(`${API_URL}/todos`)
    .then((res) => res.json())
    .then((setTodos))
    .catch((console.error))
   }, [])
+
+  useFocusEffect(
+    useCallback(() => {
+      loadTodos()
+    }, [loadTodos])
+  )
 
   async function handleDelete(id:number) {
       try{

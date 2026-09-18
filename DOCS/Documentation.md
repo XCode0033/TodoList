@@ -83,11 +83,14 @@ Create and delete fully wired across front and back.
 # 9/18/26
 
 ## ToDo
-
-
+1. ~~PATCH <>~~
+2. Add due date to card and state and post
+3. JSX logic for determining priority colors
 
 ## Completed 
-
+PATCH, works end to end. 
+Error and success messages work
+on success, user gets rerouted back to home page and homepage is already updated.
 
 ## Notes
 
@@ -97,14 +100,18 @@ Create and delete fully wired across front and back.
 # 9/19/26
 
 ## ToDo
-
-
+1. Need to remove the edit todo tab when not in use.
+2. Add due date to card, state,post, patch.
+3. JSX logic for determining priority colors
+4. Unread icon for newly created/updated todos. (check notes)
 
 ## Completed 
 
 
 ## Notes
-
+Maybe for the unread, it starts as a red pressable (unread) that turns green(read) when tapped. add to db.
+## bugs to fix
+1. fix bug that allows empty Todo to exist.
 
 ------------------
 

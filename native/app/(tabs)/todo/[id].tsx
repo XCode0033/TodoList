@@ -1,7 +1,8 @@
 import { API_URL } from '@/constants/Api'
 import { useLocalSearchParams } from 'expo-router'
 import {useState, useEffect} from 'react'
-import {View, Text, TextInput} from 'react-native'
+import {View, Text, TextInput, Pressable} from 'react-native'
+import { router } from 'expo-router'
 const TodoDetail = () => {
   const [title, setTitle] = useState<string>('')
   const [category, setCategory] = useState<string>('')
@@ -37,6 +38,13 @@ const TodoDetail = () => {
       loadTodo()
     }
   }, [id])
+
+  useEffect(() => {
+    if(status === 'idle') return
+    const timer = setTimeout(() => setStatus('idle'), 3000)
+    return () => clearTimeout((timer))
+  }, [status])
+
   async function handleSave() {
   try {
     const res = await fetch(`${API_URL}/todos/${id}`, {
@@ -57,7 +65,9 @@ const TodoDetail = () => {
 
     const data = await res.json()
     console.log(data)
+
     setStatus('success')
+    setTimeout(() => router.back(), 800)
   } catch (err) {
     console.log(err)
     setStatus('error')
@@ -88,6 +98,17 @@ const TodoDetail = () => {
       placeholder='Description'
       placeholderTextColor="#a3a3a3"
       onChangeText={setDescription}/>
+
+      <Pressable className='border border-gray-300 rounded-lg p-3 mt-5 mx-3 items-center ' onPress={handleSave}>
+        <Text className='text-white '>Edit Todo</Text>
+      </Pressable>
+
+      {status === 'success' && (
+        <Text className='text-green-300 font-bold'>Todo Edited Successfully!</Text>
+      )}
+      {status === 'error' && (
+        <Text className='text-rose-500 font-bold'>Error. Could not edit todo.</Text>
+      )}
     </View>
   );
 }
