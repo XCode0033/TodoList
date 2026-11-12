@@ -67,11 +67,28 @@ export default function TabLayout() {
         }}
       />
 
-      <Tabs.Screen 
-      name='todo/[id]'
-      options={{title: 'Edit Todo'}}/>
+      <Tabs.Screen
+        name="calendar"
+        options={{
+          title: 'Calendar',
+          tabBarIcon: ({ color }) => (
+            <SymbolView
+              name={{
+                ios: 'calendar',
+                android: 'calendar_month',
+                web: 'calendar_month',
+              }}
+              tintColor={color}
+              size={28}
+            />
+          ),
+        }}
+      />
 
-      
+      <Tabs.Screen
+        name="todo/[id]"
+        options={{ title: 'Edit Todo', href: null }}
+      />
     </Tabs>
   )
 }
