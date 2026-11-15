@@ -5,6 +5,9 @@ import { getCalendar } from '../controllers/calendarController'
 import { createTodoSchema } from '../schemas/todo.schema'
 const router = Router()
 
+router.get('/health', (req, res) => {
+    res.json({status: 'ok'})
+})
 router.get("/todos", getTodos)
 router.get("/createPage", getCreateTodoPage)
 router.get("/calendar", getCalendar)
