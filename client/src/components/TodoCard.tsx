@@ -15,7 +15,8 @@ const TodoCard = ({todo}:TodoProps) => {
             <p>{todo.todo_category}</p>
             <p>{todo.todo_description}</p>
             <p>{todo.todo_priority}</p>
-
+            <p>BRANCH Changed </p>
+            <p>TTYLXOX</p>
         </div>
      );
 }
