@@ -6,10 +6,10 @@ const API_URL = import.meta.env.VITE_API_URL
 
 function App() {
   const [todos, setTodos] = useState<Todo[]>([])
-  const [title, setTitle] = useState<string>('')
-  const [category, setCategory] = useState<string>('')
-  const [priority, setPriority] = useState<string>('')
-  const [description, setDescription] = useState<string>('')
+  // const [title, setTitle] = useState<string>('')
+  // const [category, setCategory] = useState<string>('')
+  // const [priority, setPriority] = useState<string>('')
+  // const [description, setDescription] = useState<string>('')
   const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle')
   const [isLoading, setIsLoading] = useState<boolean>(true)
   
@@ -35,7 +35,8 @@ function App() {
   }, [])
   return (
     <>
-    
+    {isLoading && <p>Loading...</p>}
+{status === 'error' && <p>Could not load todos.</p>}
     <div id="todos">
       {todos.map((todo) => (
         <TodoCard
