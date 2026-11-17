@@ -17,7 +17,7 @@ const TodoCard = ({todo}:TodoProps) => {
             </div>
 
             <div id='data-side'>
-            <p><strong>{todo.todo_title}</strong></p>
+            <p className='title-text'><strong>{todo.todo_title}</strong></p>
             <p>{todo.todo_category}</p>
             <p>{todo.todo_description}</p>
             <p>{todo.todo_priority}</p>

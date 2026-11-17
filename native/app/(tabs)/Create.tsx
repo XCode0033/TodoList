@@ -26,12 +26,14 @@ const CreateTab = () => {
         },
         body: JSON.stringify({
           todo_title: title,
-          todo_category: category,
-          todo_priority: priority,
-          todo_description: description
+          todo_category: category || undefined,
+          todo_priority: priority.trim().toLowerCase() || undefined,
+          todo_description: description || undefined
         })
       })
       if(!res.ok){
+        const body = await res.json()
+        console.log(body)
         throw new Error('Server returned an error when posting.')
       }
   
@@ -72,12 +74,17 @@ const CreateTab = () => {
       value={priority}
       placeholder='Priority'
       placeholderTextColor="#a3a3a3"
-      onChangeText={setPriority} />
+      onChangeText={setPriority}
+      autoCapitalize='none' 
+      autoCorrect={false} />
+
       <TextInput className='dmtb '
       value={description}
       placeholder='Description'
       placeholderTextColor="#a3a3a3"
       onChangeText={setDescription} />
+
+  
 
       <Pressable onPress={handleCreate} >
         <Text className='text-white border border-gray-300 mt-5 p-3 mx-3 font-bold text-center'>Create Todo</Text>

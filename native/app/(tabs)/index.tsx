@@ -67,6 +67,7 @@ export default function TabOneScreen() {
   return (
     <ScrollView >
       <View className="flex-1 items-center justify-start bg-black">
+      
       <View id='content' className='mt-3 ml-3'>
       {todos.map((todo) => (
         <TodoCard 
