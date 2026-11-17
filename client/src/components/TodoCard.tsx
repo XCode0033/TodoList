@@ -1,5 +1,5 @@
 
-// Do i need to import anything?
+
 
 import {type Todo} from '../../../types/todo';
 
@@ -10,13 +10,24 @@ interface TodoProps {
 }
 const TodoCard = ({todo}:TodoProps) => {
     return (
-        <div className='bg-gray-300 my-5 mx-5 pl-3 py-1 border rounded-lg '>
-            <p>{todo.todo_title}</p>
+        <div className='bg-neutral-500 my-5 mx-5 pl-3 py-1  rounded-lg  text-gray-100 flex flex-row  justify-between'>
+            <div id='icon-and-date' className='flex flex-row gap-2'>
+            <div id='icon'>
+                <p>Icon</p>
+            </div>
+
+            <div id='data-side'>
+            <p><strong>{todo.todo_title}</strong></p>
             <p>{todo.todo_category}</p>
             <p>{todo.todo_description}</p>
             <p>{todo.todo_priority}</p>
-            <p>BRANCH Changed </p>
-            <p>TTYLXOX</p>
+            </div>
+            </div>
+
+            <div id='delete' className='pr-1'>
+                <p>D</p>
+            </div>
+           
         </div>
      );
 }

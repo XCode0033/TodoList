@@ -35,8 +35,11 @@ function App() {
   }, [])
   return (
     <>
+    <div className="text-white">
     {isLoading && <p>Loading...</p>}
 {status === 'error' && <p>Could not load todos.</p>}
+
+    </div>
     <div id="todos">
       {todos.map((todo) => (
         <TodoCard
