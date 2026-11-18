@@ -1,7 +1,78 @@
 import 'express'
 import { RequestHandler } from 'express'
-
+import bcrypt from 'bcrypt'
 import { pool } from '../config/db'
+
+
+const saltRounds = 10;
+
+
+export const register:RequestHandler = async(req, res) => {
+   try {
+    const {email, password} = req.body
+   
+    const hash = await bcrypt.hash(password, saltRounds)
+
+    const result = await pool.query(
+      `
+      INSERT INTO users (email, hash_password)
+      VALUES ($1, $2)
+      RETURNING user_id,email
+      `,
+      [email, hash]
+    );
+
+    const newUser = result.rows[0]
+
+
+
+    res.status(201).json({user: newUser})
+   }catch(err: any){
+    if (err.code === '23505') {
+      res.status(409).json({ error: 'Email already exists.' });
+      return;
+    }
+
+    console.error('Registration error:', err);
+    res.status(500).json({ error: 'Internal server error.' });
+    return;
+   }
+    
+}
+
+
+export const login:RequestHandler = async(req,res) => {
+    const {email, password} = req.body
+    try{
+        const result = await pool.query(`
+            SELECT * FROM users WHERE email = $1 
+            `, [email]
+        );
+        const attempt = result.rows[0]
+
+         if(result.rows.length === 0) {
+            res.status(401).json({error:'Please enter valid username or password.'})
+            return;
+        }
+
+
+      
+            const match = await bcrypt.compare(password, attempt.hash_password)
+            if(!match) {
+                res.status(401).json({error:"Please enter valid username or password."})
+                return;
+            }
+        
+        res.status(200).json({success:'ok'})
+    }catch(err:any){
+        console.error('Internal server error', err)
+        res.status(500).json({error:'Internal server error'})
+        return;
+    }
+
+}
+
+
 export const getTodos:RequestHandler = async(req, res) => {
     const result = await pool.query(
         `
