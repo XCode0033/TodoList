@@ -7,8 +7,8 @@
 
 
 Todo:
-1. Use bcrypt to create register route
-2. Create login route
+~~1. Use bcrypt to create register controller~~
+~~2. Create login controller~~
 3. JSON web token for httpOnly cookies
 4. Adjust to account for native headers.
 **Nothing Deployed today**
@@ -17,7 +17,14 @@ Todo:
 ## 11/18/26
 
 Todo:
-1. Use bcrypt to create register route
-2. Create login routegit add 
-3. JSON web token for httpOnly cookies
-4. Adjust to account for native headers.
+1. Login and register route
+2. JSON web token for httpOnly cookies
+3. Adjust to account for native headers.
+
+
+## 11/19/26
+I need to set up my test db
+
+
+### End of session
+Create repo for notes. they're all in one file on the desktop. Jest and Supertests.md, notes.md, and notesdb.md
