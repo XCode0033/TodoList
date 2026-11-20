@@ -62,3 +62,4 @@ describe('Character length test NUMBER 2', () => {
         expect(result.success).toBe(expected)
     })
 })
+
