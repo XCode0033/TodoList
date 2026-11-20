@@ -18,6 +18,7 @@ web-build/
 .env.development
 .env.remote
 .env.production
+.env.test
 
 # logs
 npm-debug.log*
