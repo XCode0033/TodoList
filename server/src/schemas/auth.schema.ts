@@ -28,7 +28,7 @@ export const loginSchema = z.object({
     .toLowerCase()
     .trim()
     .max(255)
-    .pipe(z.email('Please enter a valid email')),
+    .pipe(z.email('"Please enter valid username or password."')),
 
     password:
     z.string('Password is required').min(1)

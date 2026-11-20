@@ -1,8 +1,10 @@
 import { Router } from 'express'
-import {deleteTodo, getCreateTodoPage, getTodos, patchTodo, postTodo, todoById} from '../controllers/todo.controller'
+import {deleteTodo, getCreateTodoPage, getTodos, patchTodo, postTodo, todoById, register, login} from '../controllers/todo.controller'
 import { validateBody } from '../middleware/validate'
 import { getCalendar } from '../controllers/calendarController'
 import { createTodoSchema } from '../schemas/todo.schema'
+import { loginSchema, registerSchema } from '../schemas/auth.schema'
+
 const router = Router()
 
 router.get('/health', (req, res) => {
@@ -15,7 +17,8 @@ router.get("/calendar", getCalendar)
 
 // -------------
 router.post('/createTodo', validateBody(createTodoSchema), postTodo)
-
+router.post('/auth/register', validateBody(registerSchema), register)
+router.post('/auth/login', validateBody(loginSchema), login)
 // -------------
 
 
@@ -26,3 +29,6 @@ router.delete('/todos/:id', deleteTodo)
 // ------
 router.get('/todos/:id', todoById)
 export default router
+
+
+

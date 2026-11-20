@@ -14,7 +14,7 @@
     "migrate:down": "node -r dotenv/config ./node_modules/.bin/node-pg-migrate down -j js",
     "lint": "eslint .",
     "format": "prettier --write .",
-    "test": "jest",
+    "test": "jest --runInBand",
     "test:watch": "jest --watch"
   },
   "keywords": [],
