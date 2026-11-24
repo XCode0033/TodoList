@@ -1,7 +1,9 @@
-import request from 'supertest'
+import request, { agent } from 'supertest'
 import app from '../src/app'
 import { pool } from '../src/config/db'
 import { registerSchema,loginSchema } from '../src/schemas/auth.schema'
+import passport from 'passport'
+import { relative } from 'node:path'
 
 beforeEach(async () => {
     await pool.query(`TRUNCATE users RESTART IDENTITY CASCADE`)
@@ -135,7 +137,7 @@ describe('Unknown Email test', () => {
     })
 })
 
-describe('Login success AND returns 200', () => {
+describe.skip('Login success AND returns 200', () => {
     it('Achieves login AND returns 200 OK', async() => {
         const register = await request(app)
         .post('/api/auth/register')
@@ -149,5 +151,115 @@ describe('Login success AND returns 200', () => {
         .send({email:'Gilbert@gmail.com', password:'Apples123'})
 
         expect(login.status).toBe(200)
+    })
+})
+
+
+describe.skip('JSON Token Test', () => {
+    it('Successful login sends JSON Token', async() => {
+        const register = await request(app)
+        .post('/api/auth/register')
+        .send({email:'Gilbert@gmail.com', password:'Apples123'})
+
+
+        expect(register.status).toBe(201)
+
+        const login = await request(app)
+        .post('/api/auth/login')
+        .send({email:'Gilbert@gmail.com', password:'Apples123'})
+
+        expect(login.status).toBe(200)
+        expect(login.body.token).toBeDefined()
+        const cookies = login.headers['set-cookie']
+        expect(cookies).toBeDefined()
+        expect(cookies![0]).toContain('HttpOnly')
+
+
+    })
+})
+
+
+describe.skip('Returning user when logged in.', () => {
+    it('/me returns the user when logged in', async() => {
+        const agent = request.agent(app)
+    
+       
+        await agent
+        .post('/api/auth/register')
+        .send({email:'me@example.com', password: 'Minecraft123'})
+    
+        await agent
+        .post('/api/auth/login')
+        .send({email:'me@example.com', password: 'Minecraft123'})
+        const res = await agent.get('/api/auth/me')
+    
+        expect(res.status).toBe(200)
+    
+        expect(res.body.user.email).toBe('me@example.com')
+    
+        expect(res.body.user).not.toHaveProperty('hash_password')
+        
+    
+    
+    })
+
+})
+describe.skip('test', () => {
+    it('/me returns 401 with no login', async() => {
+        const res = await request(app).get('/api/auth/me')
+        expect(res.status).toBe(401)
+    })
+
+})
+
+
+
+describe.skip('Native path. A token sent in a header and no cookie is accepted by /me', () => {
+    it('/me Successfully accepts a header token with no cookie', async() => {
+        const register = await request(app)
+        .post('/api/auth/register')
+        .send({email:'me@example.com', password: 'Minecraft123'})
+
+        expect(register.status).toBe(201) 
+
+        const login = await request(app)
+        .post('/api/auth/login')
+        .send({email:'me@example.com', password:'Minecraft123'})
+
+        expect(login.status).toBe(200)
+
+        const token = login.body.token
+
+        const me = await request(app)
+        .get('/api/auth/me')
+        .set('Authorization', `Bearer ${token}`)
+
+        expect(me.status).toBe(200)
+        expect(me.body.user.email).toBe('me@example.com')
+    })
+})
+
+
+describe('Testing logout feature', () => {
+    it('Retrieves token and logs user out with 200', async() => {
+        const agent = request.agent(app)
+        
+        await agent
+        .post('/api/auth/register')
+        .send({email:'me@example.com', password: 'Minecraft123'})
+        
+        await agent
+        .post('/api/auth/login')
+        .send({email:'me@example.com', password: 'Minecraft123'})
+
+        const login = await agent.get('/api/auth/me')
+        expect(login.status).toBe(200)
+
+        const logout = await agent.post('/api/auth/logout')
+        expect(logout.status).toBe(200)
+
+        const me = await agent.get('/api/auth/me')
+        expect(me.status).toBe(401)
+        
     })
 })

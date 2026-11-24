@@ -2,7 +2,11 @@ import 'express'
 import { RequestHandler } from 'express'
 import bcrypt from 'bcrypt'
 import { pool } from '../config/db'
-
+import jwt from 'jsonwebtoken'
+ const JWT_SECRET = process.env.JWT_SECRET;
+        if(!JWT_SECRET) {
+            throw new Error('JWT_SECRET is not found.')
+        }
 
 const saltRounds = 10;
 
@@ -63,7 +67,17 @@ export const login:RequestHandler = async(req,res) => {
                 return;
             }
         
-        res.status(200).json({success:'ok'})
+       
+        const token = jwt.sign({userId: attempt.user_id}, JWT_SECRET, {expiresIn: '7d'})
+
+        res.cookie('token', token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'lax',
+            maxAge: 7 * 24 * 60 * 60 * 1000,
+        })
+
+       res.status(200).json({user:{user_id:attempt.user_id, email: attempt.email}, token})
     }catch(err:any){
         console.error('Internal server error', err)
         res.status(500).json({error:'Internal server error'})
@@ -72,6 +86,17 @@ export const login:RequestHandler = async(req,res) => {
 
 }
 
+
+export const logout:RequestHandler = (req, res) => {
+    res.clearCookie('token',{
+        httpOnly:true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite:'lax',
+        path: '/'
+    })
+
+    res.status(200).json({message:'Logged out successfully!!'})
+}
 
 export const getTodos:RequestHandler = async(req, res) => {
     const result = await pool.query(
@@ -171,3 +196,19 @@ export const deleteTodo:RequestHandler = async(req, res) => {
 
 
 
+export const findMe:RequestHandler = async(req, res) => {
+    const findUser = await pool.query(`
+        SELECT user_id, email FROM users
+        WHERE user_id = $1 
+        `,[req.userId])
+
+
+    const user = findUser.rows[0]
+    if(!user){
+        res.status(404).json({error:'User not found'})
+        return
+    }
+
+    res.status(200).json({user})
+    
+}
