@@ -14,7 +14,7 @@ afterAll(async () => {
     await pool.end()
 })
 
-describe.skip('A request must return 201', () => {
+describe('A request must return 201', () => {
     it('Returns 201', async() => {
         const res = await request(app)
         .post('/api/auth/register')
@@ -28,7 +28,7 @@ describe.skip('A request must return 201', () => {
 
 
 
-describe.skip('Duplication test', () => {
+describe('Duplication test', () => {
     it('expecting 409 status code from duplication email registering.', async() => {
         const res = await request(app)
         .post('/api/auth/register')
@@ -50,7 +50,7 @@ describe.skip('Duplication test', () => {
 })
 
 
-describe.skip('Bad email or short password', () => {
+describe('Bad email or short password', () => {
     it.each([
         ['test@gmail.', 8, false], // Should be false because impropoer email
         ['test@gmail.com', 4, false], // Should be false because to little password characters
@@ -137,7 +137,7 @@ describe('Unknown Email test', () => {
     })
 })
 
-describe.skip('Login success AND returns 200', () => {
+describe('Login success AND returns 200', () => {
     it('Achieves login AND returns 200 OK', async() => {
         const register = await request(app)
         .post('/api/auth/register')
@@ -155,7 +155,7 @@ describe.skip('Login success AND returns 200', () => {
 })
 
 
-describe.skip('JSON Token Test', () => {
+describe('JSON Token Test', () => {
     it('Successful login sends JSON Token', async() => {
         const register = await request(app)
         .post('/api/auth/register')
@@ -179,7 +179,7 @@ describe.skip('JSON Token Test', () => {
 })
 
 
-describe.skip('Returning user when logged in.', () => {
+describe('Returning user when logged in.', () => {
     it('/me returns the user when logged in', async() => {
         const agent = request.agent(app)
     
@@ -204,7 +204,7 @@ describe.skip('Returning user when logged in.', () => {
     })
 
 })
-describe.skip('test', () => {
+describe('test', () => {
     it('/me returns 401 with no login', async() => {
         const res = await request(app).get('/api/auth/me')
         expect(res.status).toBe(401)
@@ -214,7 +214,7 @@ describe.skip('test', () => {
 
 
 
-describe.skip('Native path. A token sent in a header and no cookie is accepted by /me', () => {
+describe('Native path. A token sent in a header and no cookie is accepted by /me', () => {
     it('/me Successfully accepts a header token with no cookie', async() => {
         const register = await request(app)
         .post('/api/auth/register')
